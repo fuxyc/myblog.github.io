@@ -1,0 +1,70 @@
+/* Definimos colores y fuentes */
+:root {
+    --primary: #0070f3;
+    --background: #ffffff;
+    --text: #1a1a1a;
+    --gray: #666666;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: var(--background);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.profile-pic {
+    font-size: 50px;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn {
+    text-decoration: none;
+    background: var(--primary);
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn:hover {
+    background: #0051ad;
+    transform: translateY(-2px);
+}
+
+footer {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: #bbb;
+}

@@ -1,35 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta property="og:title" content="Fuxyc | Mi Espacio Personal">
-    <meta property="og:description" content="Bienvenido a mi blog. Aquí encontrarás mis proyectos y redes sociales.">
-    <meta property="og:image" content="https://chatphotos.uk/og-image.jpg"> <meta property="og:url" content="https://chatphotos.uk">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuxyc | Mi Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Fuxyc | Mi Espacio Personal</title>
+    
+    <meta property="og:title" content="Fuxyc | Mi Espacio Personal">
+    <meta property="og:description" content="Bienvenido a mi blog personal. Conoce mis proyectos y redes sociales.">
+    <meta property="og:image" content="https://chatphotos.uk/bg-image.jpg">
+    <meta property="og:url" content="https://chatphotos.uk">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
+    
     <link rel="icon" type="image/png" href="favicon.png">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <img src="pfp.webp" alt="Foto de Fuxyc" class="profile-pic-img">
-            <h1>¡Hola mundo!</h1>
-            <p>Este es mi nuevo blog personal.</p>
-        </header>
-        
-        <main>
-            <div class="links">
-                <a href="https://www.instagram.com/jarell.js" target="_blank" class="btn">Instagram</a>
-                <a href="https://github.com/fuxyc" class="btn">GitHub</a>
-                <a href="https://www.youtube.com/@fuxyc" class="btn">YouTube</a>
-            </div>
-        </main>
 
-        <footer>
+    <style>
+        /* --- ESTILOS ADICIONALES PARA EL BANNER Y LA PFP (Puedes mover esto a style.css) --- */
+        
+        body {
+            font-family: 'Poppins', sans-serif; /* Usamos una fuente más moderna */
+            background-color: #f8f9fa; /* Fondo gris muy claro para el body */
+        }
+
+        /* Estilos del Contenedor del Perfil (la tarjeta blanca) */
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto 100px; /* Margen superior e inferior */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Sombra más suave */
+            overflow: hidden; /* Importante para que el banner no se salga */
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards; /* Animación de entrada */
+        }
+
+        /* Estilos del Banner */
+        .profile-banner {
+            height: 200px; /* Altura del banner */
+            background-image: url('bg-image.jpg'); /* La imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            filter: blur(2px) brightness(1.1); /* Efecto de desenfoque y brillo */
+            opacity: 0;
+            animation: slideInFromTop 1s ease-out 0.2s forwards; /* Animación de entrada con retraso */
+        }
+
+        /* Contenedor del Perfil (para alinear la PFP) */
+        .profile-header {
+            padding: 0 40px 20px;
+            text-align: center;
+            position: relative;
+            margin-top: -60px; /* Superpone la PFP al banner */
+            z-index: 10;
+        }
+
+        /* Estilos de la PFP Circular */
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid #ffffff; /* Borde blanco alrededor */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            opacity: 0;
+            animation: popIn 1s ease-out 0.5s forwards; /* Animación de entrada con retraso */
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideInFromBottom {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Estilos del Título y Texto */
+        h1.profile-name {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            opacity: 0;
+            animation: slideInFromBottom 1s ease-out 0.8s forwards; /* Animación de entrada */
+        }
+
+        p.profile-bio {
+            font-size: 1.1em;
+            color: #777;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideInFromBottom 1s ease-out 1s forwards; /* Animación de entrada */
+        }
+
+        /* Estilos de los Botones (tus enlaces) */
+        .profile-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 0 40px;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: slideInFromBottom 1s ease-out 1.2s forwards; /* Animación de entrada */
+        }
+
+        .btn-profile {
+            display: block;
+            text-align: center;
+            padding: 15px 20px;
+            color: #ffffff;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s; /* Transiciones suaves */
+        }
+
+        .btn-profile:hover {
+            transform: translateY(-2px); /* Pequeño salto al pasar el ratón */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Colores específicos para cada botón */
+        .btn-instagram { background-color: #E4405F; }
+        .btn-github { background-color: #333333; }
+        .btn-youtube { background-color: #FF0000; }
+
+        /* Pie de Página */
+        footer.profile-footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #aaa;
+            padding-bottom: 30px;
+        }
+
+        /* Adaptación para Móviles */
+        @media (max-width: 600px) {
+            .profile-container {
+                margin: 0;
+                border-radius: 0; /* Tarjeta a pantalla completa en móviles */
+                width: 100%;
+            }
+            .profile-header {
+                padding: 0 20px 20px;
+            }
+            .profile-links {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        
+        <div class="profile-banner"></div>
+        
+        <div class="profile-header">
+            <img src="pfp.webp" alt="Foto de perfil de Fuxyc" class="profile-pic">
+            
+            <h1 class="profile-name">¡Hola mundo!</h1>
+            <p class="profile-bio">Este es mi nuevo blog personal.</p>
+        </div>
+        
+        <main class="profile-links">
+            <a href="https://www.instagram.com/jarell.js" target="_blank" rel="noopener noreferrer" class="btn-profile btn-instagram">Instagram</a>
+            <a href="https://github.com/fuxyc" target="_blank" rel="noopener noreferrer" class="btn-profile btn-github">GitHub</a>
+            <a href="https://www.youtube.com/@fuxyr" target="_blank" rel="noopener noreferrer" class="btn-profile btn-youtube">YouTube</a>
+        </main>
+        
+        <footer class="profile-footer">
             <p>&copy; 2026 Fuxyc - Hecho con ❤️</p>
         </footer>
+        
     </div>
 </body>
 </html>

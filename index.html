@@ -89,15 +89,20 @@
             animation: slideInFromBottom 1s ease-out 0.8s forwards;
         }
 
-        /* --- NUEVO CONTENEDOR PARA EL @ Y VERIFICADO --- */
-        .handle-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px; /* Espacio entre @fuxyc e icono */
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: slideInFromBottom 1s ease-out 1s forwards;
+        /* --- NUEVO CONTENEDOR PARA EL @ Y VERIFICADO (CORREGIDO) --- */
+    .handle-container {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Centrado vertical perfecto */
+        gap: 6px; 
+        margin-bottom: 20px;
+    
+    /* El truco mágico: movemos todo el bloque un poco hacia arriba */
+    transform: translateY(-5px); 
+    
+    opacity: 0;
+    animation: slideInFromBottom 1s ease-out 1s forwards;
+}
         }
 
         /* El @Fuxyc (Estilo Gris Twitter) */

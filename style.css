@@ -68,3 +68,12 @@ footer {
     font-size: 0.8rem;
     color: #bbb;
 }
+.profile-pic-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Esto hace el círculo */
+    object-fit: cover;  /* Esto evita que la foto se vea estirada */
+    border: 4px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}

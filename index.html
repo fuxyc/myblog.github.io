@@ -24,10 +24,9 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
-            margin: 0; /* Asegura que no haya márgenes extraños */
+            margin: 0; 
         }
 
-        /* Estilos del Contenedor del Perfil (la tarjeta blanca) */
         .profile-container {
             max-width: 600px;
             margin: 50px auto 100px;
@@ -40,34 +39,30 @@
         }
 
         /* ========================================= */
-        /* ESTILOS DEL BANNER GIF           */
+        /* AJUSTE DEL BANNER GIF PARA QUE SE VEA     */
         /* ========================================= */
         .profile-banner {
-            height: 200px;
-            /* --- ESTE ES EL CAMBIO CLAVE --- */
-            background-image: url('bg-image.gif'); /* Cargamos tu GIF */
-            /* ------------------------------- */
+            width: 100%;       /* Asegura el ancho total */
+            height: 200px;      /* Asegura la altura */
+            display: block;     /* Obliga a comportarse como bloque visible */
+            background-image: url('bg-image.gif'); 
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             position: relative;
-            
-            /* Mantengo el filtro para que la PFP y el texto resalten */
             filter: brightness(1.1); 
-            
             opacity: 0;
             animation: slideInFromTop 1s ease-out 0.2s forwards;
         }
 
-        /* Contenedor del Perfil (para alinear la PFP) */
         .profile-header {
             padding: 0 40px 20px;
             text-align: center;
             position: relative;
-            margin-top: -60px;
+            margin-top: -60px; /* Superposición de la PFP */
             z-index: 10;
         }
 
-        /* Estilos de la PFP Circular */
         .profile-pic {
             width: 120px;
             height: 120px;
@@ -75,6 +70,7 @@
             border: 5px solid #ffffff;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             object-fit: cover;
+            background-color: white; /* Evita que se vea transparente si carga lento */
             opacity: 0;
             animation: popIn 1s ease-out 0.5s forwards;
         }
@@ -85,7 +81,6 @@
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 80% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes slideInFromBottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* Estilos del Título y Texto */
         h1.profile-name {
             font-size: 2.5em;
             font-weight: 700;
@@ -104,7 +99,6 @@
             animation: slideInFromBottom 1s ease-out 1s forwards;
         }
 
-        /* Estilos de los Botones (tus enlaces) */
         .profile-links {
             display: flex;
             flex-direction: column;
@@ -131,12 +125,10 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Colores específicos para cada botón */
         .btn-instagram { background-color: #E4405F; }
         .btn-github { background-color: #333333; }
         .btn-youtube { background-color: #FF0000; }
 
-        /* Pie de Página */
         footer.profile-footer {
             text-align: center;
             font-size: 0.9em;
@@ -144,7 +136,6 @@
             padding-bottom: 30px;
         }
 
-        /* Adaptación para Móviles */
         @media (max-width: 600px) {
             .profile-container { margin: 0; border-radius: 0; width: 100%; }
             .profile-header { padding: 0 20px 20px; }

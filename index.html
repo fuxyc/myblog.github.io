@@ -19,32 +19,35 @@
     <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
-        /* --- ESTILOS PARA EL BANNER Y LA PFP --- */
+        /* --- ESTILOS INTERNOS (Recomendado mantenerlos aquí para las animaciones) --- */
         
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
             margin: 0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .profile-container {
             max-width: 600px;
-            margin: 50px auto 100px;
+            width: 90%;
             background-color: #ffffff;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             opacity: 0;
             animation: fadeIn 1s ease-out forwards;
+            margin: 50px 0;
         }
 
-        /* ========================================= */
-        /* AJUSTE DEL BANNER GIF PARA QUE SE VEA     */
-        /* ========================================= */
+        /* --- ESTILOS DEL BANNER GIF --- */
         .profile-banner {
-            width: 100%;       /* Asegura el ancho total */
-            height: 200px;      /* Asegura la altura */
-            display: block;     /* Obliga a comportarse como bloque visible */
+            width: 100%;
+            height: 200px;
+            display: block;
             background-image: url('bg-image.gif'); 
             background-size: cover;
             background-position: center;
@@ -70,35 +73,56 @@
             border: 5px solid #ffffff;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             object-fit: cover;
-            background-color: white; /* Evita que se vea transparente si carga lento */
+            background-color: white;
             opacity: 0;
             animation: popIn 1s ease-out 0.5s forwards;
         }
 
-        /* Animaciones */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideInFromTop { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 80% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes slideInFromBottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        h1.profile-name {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #333;
+        /* --- NUEVOS ESTILOS PARA NOMBRE Y VERIFICADO --- */
+        .name-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px; /* Espacio entre nombre e icono */
             margin-top: 20px;
-            margin-bottom: 5px;
             opacity: 0;
             animation: slideInFromBottom 1s ease-out 0.8s forwards;
         }
 
-        p.profile-bio {
+        h1.profile-name {
+            font-size: 2.2em; /* Un poco más pequeño para que quepa el verificado */
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        /* El icono verificado (SVG) */
+        .verified-icon {
+            width: 28px;  /* Tamaño del icono */
+            height: 28px;
+            display: flex;
+        }
+
+        /* --- NUEVO ESTILO PARA EL @Fuxyc (ESTILO X/TWITTER) --- */
+        .profile-handle {
+            color: #65676b; /* Gris claro profesional */
             font-size: 1.1em;
-            color: #777;
-            margin-bottom: 30px;
+            font-weight: 400;
+            margin-top: 5px;  /* Pegado al nombre */
+            margin-bottom: 20px;
             opacity: 0;
             animation: slideInFromBottom 1s ease-out 1s forwards;
         }
 
+        .profile-bio {
+            font-size: 1.1em;
+            color: #777;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideInFromBottom 1s ease-out 1.2s forwards;
+        }
+
+        /* --- BOTONES Y ENLACES --- */
         .profile-links {
             display: flex;
             flex-direction: column;
@@ -106,7 +130,7 @@
             padding: 0 40px;
             margin-bottom: 40px;
             opacity: 0;
-            animation: slideInFromBottom 1s ease-out 1.2s forwards;
+            animation: slideInFromBottom 1s ease-out 1.4s forwards;
         }
 
         .btn-profile {
@@ -136,10 +160,18 @@
             padding-bottom: 30px;
         }
 
+        /* Animaciones */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInFromTop { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 80% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes slideInFromBottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
         @media (max-width: 600px) {
             .profile-container { margin: 0; border-radius: 0; width: 100%; }
             .profile-header { padding: 0 20px 20px; }
             .profile-links { padding: 0 20px; }
+            h1.profile-name { font-size: 1.8em; }
+            .verified-icon { width: 22px; height: 22px; }
         }
     </style>
 </head>
@@ -152,7 +184,18 @@
         <div class="profile-header">
             <img src="pfp.webp" alt="Foto de perfil de Fuxyc" class="profile-pic">
             
-            <h1 class="profile-name">¡Hola mundo!</h1>
+            <div class="name-container">
+                <h1 class="profile-name">¡Hola mundo!</h1>
+                <span class="verified-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px">
+                        <circle fill="#1d9bf0" cx="24" cy="24" r="20"/>
+                        <polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="16,24 22,30 32,18"/>
+                    </svg>
+                </span>
+            </div>
+
+            <p class="profile-handle">@Fuxyc</p>
+            
             <p class="profile-bio">Este es mi nuevo blog personal.</p>
         </div>
         

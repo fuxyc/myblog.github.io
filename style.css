@@ -1,9 +1,11 @@
-/* Definimos colores y fuentes */
 :root {
     --primary: #0070f3;
     --background: #ffffff;
     --text: #1a1a1a;
     --gray: #666666;
+    --insta: #E4405F;
+    --git: #333333;
+    --yt: #FF0000;
 }
 
 body {
@@ -17,63 +19,83 @@ body {
     min-height: 100vh;
 }
 
+/* El contenedor ahora no tiene padding arriba para que el banner pegue al borde */
 .container {
     background: var(--background);
-    padding: 2rem;
-    border-radius: 20px;
+    border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     text-align: center;
     max-width: 400px;
     width: 90%;
+    overflow: hidden; /* Esto hace que las esquinas del banner sean redondeadas */
+    margin: 20px 0;
 }
 
-.profile-pic {
-    font-size: 50px;
-    margin-bottom: 1rem;
+/* --- ESTILOS DEL BANNER --- */
+.banner {
+    width: 100%;
+    height: 150px;
+    background-image: url('bg-image.gif');
+    background-size: cover;
+    background-position: center;
+    display: block;
+}
+
+header {
+    padding: 0 2rem 1rem 2rem;
+    position: relative;
+}
+
+/* --- FOTO DE PERFIL SUPERPUESTA --- */
+.profile-pic-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: -55px; /* Sube la foto para que pise el banner */
+    background-color: white;
 }
 
 h1 {
     font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    margin: 10px 0 5px 0;
 }
 
 p {
     color: var(--gray);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .links {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding: 0 2rem;
 }
 
 .btn {
     text-decoration: none;
-    background: var(--primary);
     color: white;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 14px;
+    border-radius: 12px;
     font-weight: bold;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s, filter 0.2s;
 }
 
+/* Colores específicos que tenías en la imagen */
+.insta { background-color: var(--insta); }
+.github { background-color: var(--git); }
+.youtube { background-color: var(--yt); }
+
 .btn:hover {
-    background: #0051ad;
+    filter: brightness(0.9);
     transform: translateY(-2px);
 }
 
 footer {
-    margin-top: 2rem;
+    padding: 2rem 0;
     font-size: 0.8rem;
     color: #bbb;
-}
-.profile-pic-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%; /* Esto hace el círculo */
-    object-fit: cover;  /* Esto evita que la foto se vea estirada */
-    border: 4px solid white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
 }

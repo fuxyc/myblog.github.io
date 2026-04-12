@@ -1,10 +1,10 @@
 backend:
-  name: github
-  repo: fuxyc/myblog.github.io # Tu usuario y repositorio
+  name: git-gateway
   branch: main
+  site_domain: lucky-madeleine-fc4893.netlify.app
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "assets/images"
+public_folder: "/assets/images"
 
 collections:
   - name: "blog"
@@ -13,6 +13,6 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Cuerpo", name: "body", widget: "markdown"}
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Fecha de publicación", name: "date", widget: "datetime" }
+      - { label: "Cuerpo del post", name: "body", widget: "markdown" }

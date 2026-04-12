@@ -14,5 +14,5 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Fecha de publicación", name: "date", widget: "datetime" }
+      - { label: "Fecha de publicación", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
       - { label: "Cuerpo del post", name: "body", widget: "markdown" }

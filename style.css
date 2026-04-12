@@ -6,8 +6,12 @@
     --insta: #E4405F;
     --git: #333333;
     --yt: #FF0000;
+    /* Colores para el efecto espejo */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.15);
 }
 
+/* --- ESTILOS GENERALES --- */
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
@@ -17,9 +21,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background 0.5s ease;
 }
 
-/* El contenedor ahora no tiene padding arriba para que el banner pegue al borde */
+/* MODO OSCURO (Ajuste para que el vidrio resalte) */
+body.dark-mode {
+    background-color: #121212;
+    --background: #1e1e1e;
+    --text: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+}
+
+/* --- TARJETA PRINCIPAL --- */
 .container {
     background: var(--background);
     border-radius: 24px;
@@ -27,11 +40,11 @@ body {
     text-align: center;
     max-width: 400px;
     width: 90%;
-    overflow: hidden; /* Esto hace que las esquinas del banner sean redondeadas */
+    overflow: hidden;
     margin: 20px 0;
+    transition: transform 0.5s ease, max-width 0.5s ease;
 }
 
-/* --- ESTILOS DEL BANNER --- */
 .banner {
     width: 100%;
     height: 150px;
@@ -46,21 +59,21 @@ header {
     position: relative;
 }
 
-/* --- FOTO DE PERFIL SUPERPUESTA --- */
 .profile-pic-img {
     width: 110px;
     height: 110px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid white;
+    border: 5px solid var(--background);
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    margin-top: -55px; /* Sube la foto para que pise el banner */
-    background-color: white;
+    margin-top: -55px;
+    background-color: var(--background);
 }
 
 h1 {
     font-size: 1.8rem;
     margin: 10px 0 5px 0;
+    color: var(--text);
 }
 
 p {
@@ -68,6 +81,7 @@ p {
     margin-bottom: 1.5rem;
 }
 
+/* --- BOTONES --- */
 .links {
     display: flex;
     flex-direction: column;
@@ -81,17 +95,55 @@ p {
     padding: 14px;
     border-radius: 12px;
     font-weight: bold;
-    transition: transform 0.2s, filter 0.2s;
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
 }
 
-/* Colores específicos que tenías en la imagen */
 .insta { background-color: var(--insta); }
 .github { background-color: var(--git); }
 .youtube { background-color: var(--yt); }
+.blogs-btn { background-color: var(--primary); }
 
 .btn:hover {
-    filter: brightness(0.9);
+    filter: brightness(1.1);
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* --- EFECTO ESPEJO EN LAS TARJETAS (NUEVO) --- */
+.post-card {
+    background: var(--glass-bg); /* Fondo ultra-transparente */
+    backdrop-filter: blur(12px); /* El efecto de desenfoque de cristal */
+    -webkit-backdrop-filter: blur(12px); 
+    border: 1px solid var(--glass-border); /* Borde fino brillante */
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+}
+
+.post-date {
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- SECCIÓN DE BLOGS --- */
+.blog-section {
+    background: rgba(0, 0, 0, 0.2); /* Fondo oscuro para que el vidrio se note */
+    border-radius: 24px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 footer {

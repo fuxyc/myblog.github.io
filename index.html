@@ -90,18 +90,37 @@
         }
 
         /* --- NUEVO CONTENEDOR PARA EL @ Y VERIFICADO (CORREGIDO) --- */
-    .handle-container {
-        display: flex;
-        justify-content: center;
-        align-items: center; /* Centrado vertical perfecto */
-        gap: 6px; 
-        margin-bottom: 20px;
     
-    /* El truco mágico: movemos todo el bloque un poco hacia arriba */
-    transform: translateY(-5px); 
-    
+/* --- CONTENEDOR PARA EL @ Y VERIFICADO (CORREGIDO) --- */
+.handle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centrado vertical real */
+    gap: 5px; /* Espacio pequeño entre texto e icono */
+    margin-bottom: 15px;
     opacity: 0;
     animation: slideInFromBottom 1s ease-out 1s forwards;
+}
+
+/* El @Fuxyc */
+.profile-handle {
+    color: #65676b;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 0; /* Importante: eliminar márgenes por defecto del <p> */
+    line-height: 1; /* Alinea la altura del texto */
+}
+
+/* El icono verificado */
+.verified-icon {
+    display: flex;
+    align-items: center;
+}
+
+.verified-icon svg {
+    width: 20px; /* Tamaño proporcional al texto */
+    height: 20px;
+    display: block;
 }
         }
 

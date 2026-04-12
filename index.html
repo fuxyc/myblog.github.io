@@ -19,7 +19,6 @@
             --bg-container: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #666666;
-            --bg-dropdown: #2d2d2d;
         }
 
         body.dark-mode {
@@ -38,123 +37,88 @@
             align-items: center;
             min-height: 100vh;
             transition: background-color 0.4s ease;
-            overflow-x: hidden;
         }
 
-        /* --- TARJETA MÁS GRANDE Y ANIMACIÓN DE ENTRADA --- */
+        /* --- CONTENEDOR CON ANIMACIÓN --- */
         .container {
             background: var(--bg-container);
-            border-radius: 32px; /* Un poco más redondeado para el nuevo tamaño */
+            border-radius: 32px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
             text-align: center;
-            max-width: 500px; /* Aumentado de 400px a 500px */
+            max-width: 500px;
             width: 90%;
             overflow: hidden;
             margin: 40px 0;
             position: relative;
-            
-            /* Animación de entrada degradada y escala */
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            animation: entradaSuave 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            transition: background-color 0.4s ease;
+            transform: translateY(30px);
+            animation: entradaSuave 0.8s ease-out forwards;
         }
 
         @keyframes entradaSuave {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- BANNER --- */
         .banner {
             width: 100%;
-            height: 180px; /* Un poco más alto para acompañar el ancho */
+            height: 150px;
             background-image: url('bg-image.gif');
             background-size: cover;
             background-position: center;
-            display: block;
         }
 
         header {
-            padding: 0 2.5rem 1.5rem 2.5rem;
+            padding: 0 2rem 1.5rem 2rem;
             position: relative;
         }
 
-        /* --- FOTO DE PERFIL --- */
         .profile-pic-img {
-            width: 130px; /* Más grande también */
-            height: 130px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 6px solid var(--bg-container);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            margin-top: -65px;
+            border: 5px solid var(--bg-container);
+            margin-top: -60px;
             background-color: var(--bg-container);
-            transition: border-color 0.4s ease;
         }
 
-        h1 {
-            font-size: 2.2rem; /* Texto más grande */
-            margin: 15px 0 5px 0;
-            color: var(--text-primary);
-        }
-
-        /* Verificado y Handle */
-        .handle-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-        }
-        .handle-row p { margin: 0; color: var(--text-secondary); font-size: 1.1rem; }
-        .verified-badge { width: 22px; height: 22px; display: flex; }
-
-        .bio {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            line-height: 1.5;
-        }
-
-        /* --- MENÚ DE OPCIONES --- */
-        .header-menu {
+        /* --- BOTÓN DE TRES PUNTOS (CORREGIDO: Fuera del flujo del texto) --- */
+        .menu-wrapper {
             position: absolute;
-            top: 80px;
-            right: 25px;
-            z-index: 100;
+            top: 20px;
+            right: 20px;
         }
+
         .dots-btn {
             background: none;
             border: none;
             cursor: pointer;
             padding: 8px;
             border-radius: 50%;
+            display: flex;
             transition: background 0.3s;
         }
-        .dots-btn:hover { background: rgba(120,120,120,0.1); }
+
+        .dots-btn:hover { background: rgba(120, 120, 120, 0.1); }
         .dots-btn svg path { fill: var(--text-secondary); }
 
         .dropdown {
             position: absolute;
             right: 0;
-            top: 110%;
+            top: 45px;
             background: #2d2d2d;
-            border-radius: 16px;
-            min-width: 180px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            min-width: 160px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             display: none;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
         }
-        .dropdown.active { display: block; animation: fadeInMenu 0.3s ease; }
-        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .dropdown.active { display: block; }
 
         .dropdown-item {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 15px;
             border: none;
             background: none;
             color: white;
@@ -163,41 +127,51 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 10px;
         }
-        .dropdown-item:hover { background: #404040; }
 
-        /* --- BOTONES DE REDES --- */
+        .dropdown-item:hover { background: #3d3d3d; }
+
+        /* --- TEXTOS --- */
+        h1 {
+            font-size: 2rem;
+            margin: 10px 0;
+            color: var(--text-primary);
+        }
+
+        .handle-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+        .handle-row p { margin: 0; color: var(--text-secondary); }
+        .verified-badge { width: 18px; height: 18px; }
+
+        .bio { color: var(--text-secondary); margin-bottom: 2rem; }
+
+        /* --- BOTONES --- */
         .links {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             padding: 0 2.5rem;
         }
         .btn {
             text-decoration: none;
             color: white;
-            padding: 16px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            padding: 15px;
+            border-radius: 14px;
+            font-weight: bold;
+            transition: transform 0.2s;
         }
-        .btn:hover {
-            filter: brightness(1.1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
         .insta { background-color: #E4405F; }
         .github { background-color: #333; }
         .youtube { background-color: #FF0000; }
 
-        footer {
-            padding: 2.5rem 0;
-            font-size: 0.9rem;
-            color: #bbb;
-        }
+        footer { padding: 2rem 0; font-size: 0.8rem; color: #bbb; }
     </style>
 </head>
 
@@ -206,18 +180,18 @@
         <div class="banner"></div>
 
         <header>
-            <div class="header-menu">
-                <button class="dots-btn" id="menuBtn" aria-label="Menú">
-                    <svg width="28" height="28" viewBox="0 0 24 24">
+            <div class="menu-wrapper">
+                <button class="dots-btn" id="menuBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
                         <path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
                     </svg>
                 </button>
                 <div class="dropdown" id="menuBox">
                     <button class="dropdown-item" id="darkToggle">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 3c.132 0 .263 0 .393.007a9 9 0 0 0 7.599 15.98A9 9 0 1 1 12 3z"/>
                         </svg>
-                        Modo Oscuro
+                        <span id="themeText">Modo Oscuro</span>
                     </button>
                 </div>
             </div>
@@ -254,8 +228,18 @@
         const menuBtn = document.getElementById('menuBtn');
         const menuBox = document.getElementById('menuBox');
         const darkToggle = document.getElementById('darkToggle');
+        const themeText = document.getElementById('themeText');
 
-        // Menú Dropdown
+        // Función para actualizar el texto según el modo
+        function updateThemeText() {
+            if (document.body.classList.contains('dark-mode')) {
+                themeText.innerText = 'Modo Claro';
+            } else {
+                themeText.innerText = 'Modo Oscuro';
+            }
+        }
+
+        // Abrir/Cerrar menú
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             menuBox.classList.toggle('active');
@@ -263,16 +247,19 @@
 
         document.addEventListener('click', () => menuBox.classList.remove('active'));
 
-        // Modo Oscuro
+        // Cambio de Modo Oscuro
         darkToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('fuxyc-theme', isDark ? 'dark' : 'light');
+            updateThemeText(); // Actualiza el texto al hacer clic
         });
 
+        // Cargar preferencia y poner el texto correcto al iniciar
         if (localStorage.getItem('fuxyc-theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
+        updateThemeText(); 
     </script>
 </body>
 </html>

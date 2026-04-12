@@ -7,42 +7,43 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="favicon.png">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* --- VARIABLES DE COLOR --- */
         :root {
-            --bg-body: #f4f7f6;
-            --bg-container: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666666;
-            --accent: #0070f3;
+            --primary: #0070f3;
+            --background: #ffffff;
+            --text: #1a1a1a;
+            --gray: #666666;
+            --insta: #E4405F;
+            --git: #333333;
+            --yt: #FF0000;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
 
         body.dark-mode {
-            --bg-body: #121212;
-            --bg-container: #1e1e1e;
-            --text-primary: #ffffff;
-            --text-secondary: #bbb;
+            --background: #1e1e1e;
+            --text: #ffffff;
+            --gray: #bbb;
+            background-color: #121212;
         }
 
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            background-color: #f4f7f6;
+            color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-x: hidden;
+            transition: all 0.5s ease;
         }
 
-        /* --- LAYOUT WRAPPER --- */
         .wrapper {
             display: flex;
             align-items: center;
@@ -53,25 +54,17 @@
             transition: all 0.5s ease;
         }
 
-        /* --- TARJETA PRINCIPAL --- */
+        /* --- CONTENEDOR PRINCIPAL --- */
         .container {
-            background: var(--bg-container);
+            background: var(--background);
             border-radius: 32px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
             text-align: center;
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             overflow: hidden;
-            position: relative;
             flex-shrink: 0;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: entradaSuave 0.8s ease-out forwards;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes entradaSuave {
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .wrapper.blog-active .container {
@@ -79,14 +72,16 @@
             transform: scale(0.95);
         }
 
-        /* --- SECCIÓN DE BLOGS --- */
+        /* --- SECCIÓN DE BLOGS (ESTILO ESPEJO) --- */
         .blog-section {
             width: 0;
             opacity: 0;
             height: 85vh;
-            background: var(--bg-container);
+            background: rgba(20, 20, 20, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 32px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             overflow-y: auto;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 0;
@@ -98,57 +93,49 @@
             padding: 35px;
         }
 
+        /* --- TARJETAS ESTILO TWITTER/DISCORD --- */
         .post-card {
-            background: rgba(120, 120, 120, 0.05);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
             text-align: left;
-            border: 1px solid rgba(120, 120, 120, 0.1);
-            animation: fadeInPost 0.5s ease forwards;
+            transition: all 0.3s ease;
         }
 
-        @keyframes fadeInPost { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .post-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
 
-        .post-card h3 { margin: 0 0 8px 0; color: var(--text-primary); }
-        .post-card p { margin: 0; color: var(--text-secondary); line-height: 1.5; }
-        .post-date { font-size: 0.85rem; color: var(--accent); font-weight: bold; display: block; margin-bottom: 5px; }
-
-        /* --- HEADER Y MENÚ --- */
+        /* --- HEADER Y PERFIL --- */
         .banner { width: 100%; height: 160px; background-image: url('bg-image.gif'); background-size: cover; background-position: center; }
         header { padding: 0 2.5rem 1.5rem 2.5rem; position: relative; }
-        .profile-pic-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 6px solid var(--bg-container); margin-top: -60px; background-color: var(--bg-container); }
+        .profile-pic-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 6px solid var(--background); margin-top: -60px; background-color: var(--background); }
         
         .menu-wrapper { position: absolute; top: 25px; right: 25px; }
-        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.3s; }
-        .dots-btn svg path { fill: var(--text-secondary); }
+        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; }
+        .dots-btn svg path { fill: var(--gray); }
 
-        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 1000; overflow: hidden; }
+        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; display: none; z-index: 1000; overflow: hidden; }
         .dropdown.active { display: block; }
-        .dropdown-item { width: 100%; padding: 14px 18px; border: none; background: none; color: white; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px; font-family: 'Inter', sans-serif; }
+        .dropdown-item { width: 100%; padding: 14px 18px; border: none; background: none; color: white; text-align: left; cursor: pointer; font-family: 'Inter', sans-serif; }
         .dropdown-item:hover { background: #404040; }
-
-        h1 { font-size: 2rem; margin: 15px 0 5px 0; color: var(--text-primary); }
-        .handle-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
-        .handle-row p { margin: 0; color: var(--text-secondary); font-size: 1.1rem; }
-        .verified-badge { width: 20px; height: 20px; }
 
         /* --- BOTONES --- */
         .links { display: flex; flex-direction: column; gap: 14px; padding: 0 2.5rem; }
-        .btn { text-decoration: none; color: white; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        
-        .insta { background-color: #E4405F; }
-        .github { background-color: #333; }
-        .youtube { background-color: #FF0000; }
-        .blogs-btn { background-color: var(--accent); margin-top: 5px; }
-
-        footer { padding: 2.5rem 0; font-size: 0.9rem; color: #bbb; }
+        .btn { text-decoration: none; color: white; padding: 16px; border-radius: 16px; font-weight: 700; transition: all 0.3s ease; text-align: center; border: none; cursor: pointer; }
+        .insta { background-color: var(--insta); }
+        .github { background-color: var(--git); }
+        .youtube { background-color: var(--yt); }
+        .blogs-btn { background-color: var(--primary); }
 
         @media (max-width: 900px) {
-            .wrapper.blog-active { flex-direction: column; padding: 15px; }
-            .wrapper.blog-active .blog-section { width: 100%; height: auto; margin-top: 20px; }
-            .wrapper.blog-active .container { max-width: 100%; }
+            .wrapper.blog-active { flex-direction: column; }
+            .wrapper.blog-active .blog-section { width: 100%; height: auto; }
         }
     </style>
 </head>
@@ -163,23 +150,18 @@
                         <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
                     </button>
                     <div class="dropdown" id="menuBox">
-                        <button class="dropdown-item" id="darkToggle">
-                            <span id="themeText">Modo Oscuro</span>
-                        </button>
+                        <button class="dropdown-item" id="darkToggle">Modo Oscuro</button>
                         <button class="dropdown-item" onclick="window.netlifyIdentity.open()">Panel Admin</button>
                     </div>
                 </div>
 
                 <img src="pfp.webp" alt="Fuxyc" class="profile-pic-img">
-                <h1>¡Hola a todos soy Fuxyc!</h1>
+                <h1 id="titleName">¡Hola soy Fuxyc!</h1>
                 
-                <div class="handle-row">
-                    <p>@fuxyc</p>
-                    <span class="verified-badge">
-                        <svg viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
-                    </span>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem;">
+                    <p style="margin:0">@fuxyc</p>
+                    <svg width="18" height="18" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
                 </div>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Este es mi nuevo blog personal.</p>
             </header>
 
             <main class="links">
@@ -193,7 +175,7 @@
         </div>
 
         <div class="blog-section" id="blogSection">
-            <h2 style="color: var(--text-primary);">Mis Publicaciones</h2>
+            <h2 style="color: white; margin-bottom: 30px;">Mis Publicaciones</h2>
             <div id="postsContainer"></div>
             <button class="btn github" id="closeBlog" style="width: 100%; margin-top: 20px;">Cerrar Blogs</button>
         </div>
@@ -203,18 +185,12 @@
         const menuBtn = document.getElementById('menuBtn');
         const menuBox = document.getElementById('menuBox');
         const darkToggle = document.getElementById('darkToggle');
-        const themeText = document.getElementById('themeText');
         const blogBtn = document.getElementById('blogBtn');
         const closeBlog = document.getElementById('closeBlog');
         const wrapper = document.getElementById('mainWrapper');
         const postsContainer = document.getElementById('postsContainer');
 
-        // --- LÓGICA DE MENÚ Y TEMA ---
-        function updateThemeText() {
-            const isDark = document.body.classList.contains('dark-mode');
-            themeText.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
-        }
-
+        // Menú y Tema
         menuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuBox.classList.toggle('active'); });
         document.addEventListener('click', () => menuBox.classList.remove('active'));
 
@@ -222,15 +198,15 @@
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             localStorage.setItem('fuxyc-theme', isDark ? 'dark' : 'light');
-            updateThemeText();
+            darkToggle.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
         });
 
         if (localStorage.getItem('fuxyc-theme') === 'dark') {
             document.body.classList.add('dark-mode');
-            updateThemeText();
+            darkToggle.innerText = 'Modo Claro';
         }
 
-        // --- LÓGICA DE BLOGS ---
+        // Lógica de Blogs con Estilo Social
         blogBtn.addEventListener('click', () => {
             wrapper.classList.add('blog-active');
             loadPosts();
@@ -248,47 +224,48 @@
                 const files = await response.json();
                 postsContainer.innerHTML = "";
 
-                if (!Array.isArray(files)) throw new Error();
-
                 for (const file of files) {
                     if (file.name.endsWith('.md')) {
                         const res = await fetch(file.download_url);
                         const content = await res.text();
-                        const lines = content.split('\n');
-                        const title = lines.find(l => l.startsWith('title:'))?.replace('title: ', '').replace(/"/g, '') || "Sin título";
-                        const date = lines.find(l => l.startsWith('date:'))?.replace('date: ', '') || "";
-                        const body = content.split('---')[2] || "Contenido no disponible";
+                        const parts = content.split('---');
+                        const frontmatter = parts[1];
+                        const rawBody = parts[2];
+
+                        const title = frontmatter.match(/title:\s*(.*)/)?.[1]?.replace(/"/g, '') || "Sin título";
+                        const date = frontmatter.match(/date:\s*(.*)/)?.[1] || "";
 
                         const card = document.createElement('div');
                         card.className = 'post-card';
                         card.innerHTML = `
-                            <span class="post-date">${date ? new Date(date).toLocaleDateString() : ''}</span>
-                            <h3>${title}</h3>
-                            <p>${body.substring(0, 180)}...</p>
+                            <div style="display: flex; gap: 15px;">
+                                <img src="pfp.webp" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                                <div style="flex-grow: 1;">
+                                    <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
+                                        <span style="font-weight: 700; color: var(--text);">Fuxyc</span>
+                                        <svg width="14" height="14" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
+                                        <span style="color: var(--gray); font-size: 0.85rem;">@fuxyc • ${date ? new Date(date).toLocaleDateString() : ''}</span>
+                                    </div>
+                                    <h3 style="margin: 5px 0; font-size: 1.1rem; color: var(--primary);">${title}</h3>
+                                    <div style="color: var(--text); font-size: 0.95rem; line-height: 1.5; opacity: 0.9;">
+                                        ${marked.parse(rawBody)}
+                                    </div>
+                                </div>
+                            </div>
                         `;
                         postsContainer.appendChild(card);
                     }
                 }
             } catch (err) {
-                postsContainer.innerHTML = "<p style='color:gray'>Todavía no hay publicaciones. ¡Crea la primera desde el panel!</p>";
+                postsContainer.innerHTML = "<p style='color:gray'>Error al cargar o no hay posts.</p>";
             }
         }
 
-        // --- ARREGLO PARA EL LOGIN ---
+        // Netlify Identity
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
                 if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
-
-            // Si cierras el widget y ya estás logueado, te manda al admin
-            window.netlifyIdentity.on("close", () => {
-                const user = window.netlifyIdentity.currentUser();
-                if (user) {
-                    document.location.href = "/admin/";
+                    window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
                 }
             });
         }

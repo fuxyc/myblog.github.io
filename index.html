@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuxyc | Mi Espacio Personal</title>
+    <title>Fuxyc | Perfil y Blog</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,11 +50,11 @@
             justify-content: center;
             width: 100%;
             max-width: 1200px;
-            gap: 20px;
-            transition: all 0.5s ease;
+            gap: 30px; /* Más espacio entre perfil y blog */
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
+        /* --- CONTENEDOR PRINCIPAL (LINKTREE) --- */
         .container {
             background: var(--background);
             border-radius: 32px;
@@ -64,22 +64,22 @@
             width: 100%;
             overflow: hidden;
             flex-shrink: 0;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s ease;
         }
 
         .wrapper.blog-active .container {
-            max-width: 380px;
+            max-width: 360px;
             transform: scale(0.95);
         }
 
-        /* --- SECCIÓN DE BLOGS (ESTILO ESPEJO) --- */
+        /* --- SECCIÓN DE BLOGS (EFECTO ESPEJO) --- */
         .blog-section {
             width: 0;
             opacity: 0;
             height: 85vh;
-            background: rgba(20, 20, 20, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: 32px;
             border: 1px solid rgba(255,255,255,0.1);
             overflow-y: auto;
@@ -93,34 +93,37 @@
             padding: 35px;
         }
 
-        /* --- TARJETAS ESTILO TWITTER/DISCORD --- */
+        /* --- TARJETAS DE POSTS --- */
         .post-card {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 24px;
+            padding: 24px !important; /* Corregido espaciado amontonado */
+            margin-bottom: 25px;
             text-align: left;
             transition: all 0.3s ease;
         }
 
         .post-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
             border-color: var(--primary);
         }
 
-        /* --- HEADER Y PERFIL --- */
+        .post-content p {
+            margin: 0 0 12px 0; /* Espaciado entre párrafos dentro del post */
+            line-height: 1.6;
+        }
+
+        /* --- DISEÑO DE PERFIL --- */
         .banner { width: 100%; height: 160px; background-image: url('bg-image.gif'); background-size: cover; background-position: center; }
         header { padding: 0 2.5rem 1.5rem 2.5rem; position: relative; }
-        .profile-pic-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 6px solid var(--background); margin-top: -60px; background-color: var(--background); }
+        .profile-pic-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 6px solid var(--background); margin-top: -60px; background-color: var(--background); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         
         .menu-wrapper { position: absolute; top: 25px; right: 25px; }
-        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; }
-        .dots-btn svg path { fill: var(--gray); }
-
-        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; display: none; z-index: 1000; overflow: hidden; }
+        .dots-btn { background: rgba(0,0,0,0.1); border: none; cursor: pointer; padding: 8px; border-radius: 50%; }
+        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; display: none; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .dropdown.active { display: block; }
         .dropdown-item { width: 100%; padding: 14px 18px; border: none; background: none; color: white; text-align: left; cursor: pointer; font-family: 'Inter', sans-serif; }
         .dropdown-item:hover { background: #404040; }
@@ -132,10 +135,12 @@
         .github { background-color: var(--git); }
         .youtube { background-color: var(--yt); }
         .blogs-btn { background-color: var(--primary); }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
+        /* Ajustes para móviles */
         @media (max-width: 900px) {
-            .wrapper.blog-active { flex-direction: column; }
-            .wrapper.blog-active .blog-section { width: 100%; height: auto; }
+            .wrapper.blog-active { flex-direction: column; padding: 20px; }
+            .wrapper.blog-active .blog-section { width: 100%; height: auto; max-height: 80vh; }
         }
     </style>
 </head>
@@ -147,21 +152,22 @@
             <header>
                 <div class="menu-wrapper">
                     <button class="dots-btn" id="menuBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
                     </button>
                     <div class="dropdown" id="menuBox">
-                        <button class="dropdown-item" id="darkToggle">Modo Oscuro</button>
-                        <button class="dropdown-item" onclick="window.netlifyIdentity.open()">Panel Admin</button>
+                        <button class="dropdown-item" id="darkToggle">Cambiar Tema</button>
+                        <button class="dropdown-item" onclick="window.netlifyIdentity.open()">Administrar</button>
                     </div>
                 </div>
 
                 <img src="pfp.webp" alt="Fuxyc" class="profile-pic-img">
-                <h1 id="titleName">¡Hola soy Fuxyc!</h1>
+                <h1 style="margin: 15px 0 5px 0; font-size: 1.8rem;">¡Hola soy Fuxyc!</h1>
                 
-                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem;">
-                    <p style="margin:0">@fuxyc</p>
-                    <svg width="18" height="18" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 1.5rem;">
+                    <span style="color: var(--gray);">@fuxyc</span>
+                    <svg width="16" height="16" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
                 </div>
+                <p id="bio" style="color: var(--gray); font-size: 0.95rem; margin-bottom: 2rem;">Este es mi nuevo blog personal.</p>
             </header>
 
             <main class="links">
@@ -171,17 +177,20 @@
                 <button class="btn blogs-btn" id="blogBtn">Explorar Blogs</button>
             </main>
 
-            <footer>&copy; 2026 Fuxyc - Hecho con ❤️</footer>
+            <footer style="padding: 2.5rem 0; font-size: 0.8rem; color: #888;">
+                &copy; 2026 Fuxyc - Hecho con ❤️
+            </footer>
         </div>
 
         <div class="blog-section" id="blogSection">
-            <h2 style="color: white; margin-bottom: 30px;">Mis Publicaciones</h2>
+            <h2 style="color: white; margin-bottom: 30px; font-size: 1.8rem;">Mis Publicaciones</h2>
             <div id="postsContainer"></div>
-            <button class="btn github" id="closeBlog" style="width: 100%; margin-top: 20px;">Cerrar Blogs</button>
+            <button class="btn github" id="closeBlog" style="width: 100%; margin-top: 10px;">Cerrar Blogs</button>
         </div>
     </div>
 
     <script>
+        // Lógica de Menú y Tema
         const menuBtn = document.getElementById('menuBtn');
         const menuBox = document.getElementById('menuBox');
         const darkToggle = document.getElementById('darkToggle');
@@ -190,23 +199,17 @@
         const wrapper = document.getElementById('mainWrapper');
         const postsContainer = document.getElementById('postsContainer');
 
-        // Menú y Tema
         menuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuBox.classList.toggle('active'); });
         document.addEventListener('click', () => menuBox.classList.remove('active'));
 
         darkToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('fuxyc-theme', isDark ? 'dark' : 'light');
-            darkToggle.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
 
-        if (localStorage.getItem('fuxyc-theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            darkToggle.innerText = 'Modo Claro';
-        }
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
 
-        // Lógica de Blogs con Estilo Social
+        // Lógica de carga de Blogs
         blogBtn.addEventListener('click', () => {
             wrapper.classList.add('blog-active');
             loadPosts();
@@ -224,13 +227,15 @@
                 const files = await response.json();
                 postsContainer.innerHTML = "";
 
+                if (!Array.isArray(files)) return;
+
                 for (const file of files) {
                     if (file.name.endsWith('.md')) {
                         const res = await fetch(file.download_url);
                         const content = await res.text();
                         const parts = content.split('---');
                         const frontmatter = parts[1];
-                        const rawBody = parts[2];
+                        const rawBody = parts[2] || "";
 
                         const title = frontmatter.match(/title:\s*(.*)/)?.[1]?.replace(/"/g, '') || "Sin título";
                         const date = frontmatter.match(/date:\s*(.*)/)?.[1] || "";
@@ -238,16 +243,16 @@
                         const card = document.createElement('div');
                         card.className = 'post-card';
                         card.innerHTML = `
-                            <div style="display: flex; gap: 15px;">
-                                <img src="pfp.webp" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-                                <div style="flex-grow: 1;">
-                                    <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
-                                        <span style="font-weight: 700; color: var(--text);">Fuxyc</span>
-                                        <svg width="14" height="14" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
-                                        <span style="color: var(--gray); font-size: 0.85rem;">@fuxyc • ${date ? new Date(date).toLocaleDateString() : ''}</span>
+                            <div style="display: flex; gap: 18px; align-items: flex-start;">
+                                <img src="pfp.webp" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1);">
+                                <div style="flex-grow: 1; min-width: 0;">
+                                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap;">
+                                        <span style="font-weight: 800; color: var(--text); font-size: 1rem;">Fuxyc</span>
+                                        <svg width="16" height="16" viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
+                                        <span style="color: var(--gray); font-size: 0.9rem;">@fuxyc • ${date ? new Date(date).toLocaleDateString() : ''}</span>
                                     </div>
-                                    <h3 style="margin: 5px 0; font-size: 1.1rem; color: var(--primary);">${title}</h3>
-                                    <div style="color: var(--text); font-size: 0.95rem; line-height: 1.5; opacity: 0.9;">
+                                    <h3 style="margin: 0 0 10px 0; font-size: 1.2rem; color: var(--primary); line-height: 1.3;">${title}</h3>
+                                    <div class="post-content" style="color: var(--text); font-size: 1rem; opacity: 0.95;">
                                         ${marked.parse(rawBody)}
                                     </div>
                                 </div>
@@ -257,17 +262,8 @@
                     }
                 }
             } catch (err) {
-                postsContainer.innerHTML = "<p style='color:gray'>Error al cargar o no hay posts.</p>";
+                postsContainer.innerHTML = "<p style='color:gray; padding:20px;'>No se pudieron cargar los posts.</p>";
             }
-        }
-
-        // Netlify Identity
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
-                }
-            });
         }
     </script>
 </body>

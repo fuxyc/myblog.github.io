@@ -53,7 +53,7 @@
             transition: all 0.5s ease;
         }
 
-        /* --- TARJETA PRINCIPAL (ANIMADA Y MÁS GRANDE) --- */
+        /* --- TARJETA PRINCIPAL --- */
         .container {
             background: var(--bg-container);
             border-radius: 32px;
@@ -64,8 +64,6 @@
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
-            
-            /* Animación de entrada */
             opacity: 0;
             transform: translateY(30px);
             animation: entradaSuave 0.8s ease-out forwards;
@@ -76,7 +74,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estado encogido cuando el blog está activo */
         .wrapper.blog-active .container {
             max-width: 380px;
             transform: scale(0.95);
@@ -124,7 +121,6 @@
         
         .menu-wrapper { position: absolute; top: 25px; right: 25px; }
         .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.3s; }
-        .dots-btn:hover { background: rgba(120,120,120,0.1); }
         .dots-btn svg path { fill: var(--text-secondary); }
 
         .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 1000; overflow: hidden; }
@@ -137,7 +133,7 @@
         .handle-row p { margin: 0; color: var(--text-secondary); font-size: 1.1rem; }
         .verified-badge { width: 20px; height: 20px; }
 
-        /* --- BOTONES DE REDES --- */
+        /* --- BOTONES --- */
         .links { display: flex; flex-direction: column; gap: 14px; padding: 0 2.5rem; }
         .btn { text-decoration: none; color: white; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
@@ -149,7 +145,6 @@
 
         footer { padding: 2.5rem 0; font-size: 0.9rem; color: #bbb; }
 
-        /* Responsive Mobile */
         @media (max-width: 900px) {
             .wrapper.blog-active { flex-direction: column; padding: 15px; }
             .wrapper.blog-active .blog-section { width: 100%; height: auto; margin-top: 20px; }
@@ -171,7 +166,7 @@
                         <button class="dropdown-item" id="darkToggle">
                             <span id="themeText">Modo Oscuro</span>
                         </button>
-                        <button class="dropdown-item" onclick="window.location.href='/admin/'">Admin Panel</button>
+                        <button class="dropdown-item" onclick="window.netlifyIdentity.open()">Panel Admin</button>
                     </div>
                 </div>
 
@@ -235,10 +230,10 @@
             updateThemeText();
         }
 
-        // --- LÓGICA DE BLOGS (ANIMACIÓN Y CARGA) ---
+        // --- LÓGICA DE BLOGS ---
         blogBtn.addEventListener('click', () => {
             wrapper.classList.add('blog-active');
-            loadPosts(); // Carga los posts de GitHub al abrir
+            loadPosts();
         });
 
         closeBlog.addEventListener('click', () => wrapper.classList.remove('blog-active'));
@@ -251,17 +246,14 @@
             try {
                 const response = await fetch(apiUrl);
                 const files = await response.json();
-                postsContainer.innerHTML = ""; // Limpiar antes de cargar
+                postsContainer.innerHTML = "";
 
                 if (!Array.isArray(files)) throw new Error();
 
-                // Recorremos los archivos .md creados por el CMS
                 for (const file of files) {
                     if (file.name.endsWith('.md')) {
                         const res = await fetch(file.download_url);
                         const content = await res.text();
-                        
-                        // Extraer datos básicos (Título y cuerpo simple)
                         const lines = content.split('\n');
                         const title = lines.find(l => l.startsWith('title:'))?.replace('title: ', '').replace(/"/g, '') || "Sin título";
                         const date = lines.find(l => l.startsWith('date:'))?.replace('date: ', '') || "";
@@ -282,11 +274,21 @@
             }
         }
 
-        // --- NETLIFY IDENTITY GESTIÓN ---
+        // --- ARREGLO PARA EL LOGIN ---
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
                 if (!user) {
-                    window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+
+            // Si cierras el widget y ya estás logueado, te manda al admin
+            window.netlifyIdentity.on("close", () => {
+                const user = window.netlifyIdentity.currentUser();
+                if (user) {
+                    document.location.href = "/admin/";
                 }
             });
         }

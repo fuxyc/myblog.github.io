@@ -8,9 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <style>
-        /* --- VARIABLES --- */
+        /* --- VARIABLES DE COLOR --- */
         :root {
             --bg-body: #f4f7f6;
             --bg-container: #ffffff;
@@ -38,7 +42,7 @@
             overflow-x: hidden;
         }
 
-        /* --- LAYOUT PARA EL MODO BLOG --- */
+        /* --- LAYOUT WRAPPER --- */
         .wrapper {
             display: flex;
             align-items: center;
@@ -49,7 +53,7 @@
             transition: all 0.5s ease;
         }
 
-        /* --- TARJETA PRINCIPAL --- */
+        /* --- TARJETA PRINCIPAL (ANIMADA Y MÁS GRANDE) --- */
         .container {
             background: var(--bg-container);
             border-radius: 32px;
@@ -59,28 +63,30 @@
             width: 100%;
             overflow: hidden;
             position: relative;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
+            
+            /* Animación de entrada */
             opacity: 0;
             transform: translateY(30px);
             animation: entradaSuave 0.8s ease-out forwards;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes entradaSuave {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ESTADO ENCOGIDO CUANDO SE ABRE EL BLOG */
+        /* Estado encogido cuando el blog está activo */
         .wrapper.blog-active .container {
-            max-width: 350px; /* Se hace más delgado */
+            max-width: 380px;
             transform: scale(0.95);
         }
 
-        /* --- SECCIÓN DE POSTS (OCULTA POR DEFECTO) --- */
+        /* --- SECCIÓN DE BLOGS --- */
         .blog-section {
             width: 0;
             opacity: 0;
-            height: 80vh;
+            height: 85vh;
             background: var(--bg-container);
             border-radius: 32px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
@@ -90,12 +96,11 @@
         }
 
         .wrapper.blog-active .blog-section {
-            width: 600px; /* Ancho de la sección de posts */
+            width: 650px;
             opacity: 1;
-            padding: 30px;
+            padding: 35px;
         }
 
-        /* --- DISEÑO DE LOS POSTS --- */
         .post-card {
             background: rgba(120, 120, 120, 0.05);
             border-radius: 20px;
@@ -103,45 +108,51 @@
             margin-bottom: 20px;
             text-align: left;
             border: 1px solid rgba(120, 120, 120, 0.1);
+            animation: fadeInPost 0.5s ease forwards;
         }
 
-        .post-card h3 { margin: 0 0 10px 0; color: var(--text-primary); }
-        .post-card p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; }
-        .post-date { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
+        @keyframes fadeInPost { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ELEMENTOS DE LA TARJETA --- */
-        .banner { width: 100%; height: 150px; background-image: url('bg-image.gif'); background-size: cover; background-position: center; }
-        header { padding: 0 2rem 1.5rem 2rem; position: relative; }
-        .profile-pic-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid var(--bg-container); margin-top: -55px; background-color: var(--bg-container); }
+        .post-card h3 { margin: 0 0 8px 0; color: var(--text-primary); }
+        .post-card p { margin: 0; color: var(--text-secondary); line-height: 1.5; }
+        .post-date { font-size: 0.85rem; color: var(--accent); font-weight: bold; display: block; margin-bottom: 5px; }
+
+        /* --- HEADER Y MENÚ --- */
+        .banner { width: 100%; height: 160px; background-image: url('bg-image.gif'); background-size: cover; background-position: center; }
+        header { padding: 0 2.5rem 1.5rem 2.5rem; position: relative; }
+        .profile-pic-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 6px solid var(--bg-container); margin-top: -60px; background-color: var(--bg-container); }
         
-        .menu-wrapper { position: absolute; top: 20px; right: 20px; }
-        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; }
+        .menu-wrapper { position: absolute; top: 25px; right: 25px; }
+        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.3s; }
+        .dots-btn:hover { background: rgba(120,120,120,0.1); }
         .dots-btn svg path { fill: var(--text-secondary); }
-        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 160px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: none; z-index: 1000; }
+
+        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 170px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; z-index: 1000; overflow: hidden; }
         .dropdown.active { display: block; }
-        .dropdown-item { width: 100%; padding: 12px 15px; border: none; background: none; color: white; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .dropdown-item { width: 100%; padding: 14px 18px; border: none; background: none; color: white; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px; font-family: 'Inter', sans-serif; }
+        .dropdown-item:hover { background: #404040; }
 
-        h1 { font-size: 1.8rem; margin: 10px 0; color: var(--text-primary); }
-        .handle-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 1rem; }
-        .handle-row p { margin: 0; color: var(--text-secondary); }
-        .verified-badge { width: 18px; height: 18px; }
+        h1 { font-size: 2rem; margin: 15px 0 5px 0; color: var(--text-primary); }
+        .handle-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
+        .handle-row p { margin: 0; color: var(--text-secondary); font-size: 1.1rem; }
+        .verified-badge { width: 20px; height: 20px; }
 
-        /* --- BOTONES --- */
-        .links { display: flex; flex-direction: column; gap: 12px; padding: 0 2.5rem; margin-bottom: 2rem; }
-        .btn { text-decoration: none; color: white; padding: 14px; border-radius: 14px; font-weight: bold; transition: all 0.3s; cursor: pointer; border: none; font-size: 1rem; }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        /* --- BOTONES DE REDES --- */
+        .links { display: flex; flex-direction: column; gap: 14px; padding: 0 2.5rem; }
+        .btn { text-decoration: none; color: white; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         
         .insta { background-color: #E4405F; }
         .github { background-color: #333; }
         .youtube { background-color: #FF0000; }
         .blogs-btn { background-color: var(--accent); margin-top: 5px; }
 
-        footer { padding: 1rem 0; font-size: 0.8rem; color: #bbb; }
+        footer { padding: 2.5rem 0; font-size: 0.9rem; color: #bbb; }
 
-        /* Mobile responsive */
+        /* Responsive Mobile */
         @media (max-width: 900px) {
-            .wrapper.blog-active { flex-direction: column; padding: 20px; }
-            .wrapper.blog-active .blog-section { width: 100%; height: auto; }
+            .wrapper.blog-active { flex-direction: column; padding: 15px; }
+            .wrapper.blog-active .blog-section { width: 100%; height: auto; margin-top: 20px; }
             .wrapper.blog-active .container { max-width: 100%; }
         }
     </style>
@@ -153,50 +164,43 @@
             <div class="banner"></div>
             <header>
                 <div class="menu-wrapper">
-                    <button class="dots-btn" id="menuBtn"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></button>
+                    <button class="dots-btn" id="menuBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+                    </button>
                     <div class="dropdown" id="menuBox">
-                        <button class="dropdown-item" id="darkToggle">Modo Oscuro</button>
+                        <button class="dropdown-item" id="darkToggle">
+                            <span id="themeText">Modo Oscuro</span>
+                        </button>
+                        <button class="dropdown-item" onclick="window.location.href='/admin/'">Admin Panel</button>
                     </div>
                 </div>
+
                 <img src="pfp.webp" alt="Fuxyc" class="profile-pic-img">
                 <h1>¡Hola a todos soy Fuxyc!</h1>
+                
                 <div class="handle-row">
                     <p>@fuxyc</p>
-                    <span class="verified-badge"><svg viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg></span>
+                    <span class="verified-badge">
+                        <svg viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg>
+                    </span>
                 </div>
-                <p style="color: var(--text-secondary)">Este es mi nuevo blog personal.</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Este es mi nuevo blog personal.</p>
             </header>
 
             <main class="links">
-                <a href="#" class="btn insta">Instagram</a>
-                <a href="#" class="btn github">GitHub</a>
-                <a href="#" class="btn youtube">YouTube</a>
-                <button class="btn blogs-btn" id="blogBtn">Ver Blogs</button>
+                <a href="https://instagram.com/jarell.js" target="_blank" class="btn insta">Instagram</a>
+                <a href="https://github.com/fuxyc" target="_blank" class="btn github">GitHub</a>
+                <a href="https://youtube.com/@fuxyc" target="_blank" class="btn youtube">YouTube</a>
+                <button class="btn blogs-btn" id="blogBtn">Explorar Blogs</button>
             </main>
-            <footer>&copy; 2026 Fuxyc</footer>
+
+            <footer>&copy; 2026 Fuxyc - Hecho con ❤️</footer>
         </div>
 
         <div class="blog-section" id="blogSection">
             <h2 style="color: var(--text-primary);">Mis Publicaciones</h2>
-            
-            <div class="post-card">
-                <span class="post-date">12 Abr 2026</span>
-                <h3>¡Bienvenidos a mi sección de blogs!</h3>
-                <p>Aquí estaré publicando cosas interesantes sobre programación y mis avances en el canal. ¡Espero que les guste este nuevo diseño!</p>
-            </div>
-
-            <div class="post-card">
-                <span class="post-date">10 Abr 2026</span>
-                <h3>Actualización del sitio</h3>
-                <p>He añadido el modo oscuro y un menú de opciones más limpio. El siguiente paso es integrar más contenido multimedia.</p>
-            </div>
-            <div class="post-card">
-                <span class="post-date">Día Mes Año</span>
-                <h3>WOW</h3>
-                <p>Literalmente increible.</p>
-            </div>
-            
-            <button class="btn github" id="closeBlog" style="width: 100%;">Cerrar Blogs</button>
+            <div id="postsContainer"></div>
+            <button class="btn github" id="closeBlog" style="width: 100%; margin-top: 20px;">Cerrar Blogs</button>
         </div>
     </div>
 
@@ -204,35 +208,87 @@
         const menuBtn = document.getElementById('menuBtn');
         const menuBox = document.getElementById('menuBox');
         const darkToggle = document.getElementById('darkToggle');
+        const themeText = document.getElementById('themeText');
         const blogBtn = document.getElementById('blogBtn');
         const closeBlog = document.getElementById('closeBlog');
         const wrapper = document.getElementById('mainWrapper');
+        const postsContainer = document.getElementById('postsContainer');
 
-        // Lógica del Menú
+        // --- LÓGICA DE MENÚ Y TEMA ---
+        function updateThemeText() {
+            const isDark = document.body.classList.contains('dark-mode');
+            themeText.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
+        }
+
         menuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuBox.classList.toggle('active'); });
         document.addEventListener('click', () => menuBox.classList.remove('active'));
 
-        // Modo Oscuro
         darkToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
-            darkToggle.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('fuxyc-theme', isDark ? 'dark' : 'light');
+            updateThemeText();
         });
 
-        // ANIMACIÓN DE BLOGS (EL CORAZÓN DE TU PETICIÓN)
+        if (localStorage.getItem('fuxyc-theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            updateThemeText();
+        }
+
+        // --- LÓGICA DE BLOGS (ANIMACIÓN Y CARGA) ---
         blogBtn.addEventListener('click', () => {
             wrapper.classList.add('blog-active');
+            loadPosts(); // Carga los posts de GitHub al abrir
         });
 
-        closeBlog.addEventListener('click', () => {
-            wrapper.classList.remove('blog-active');
-        });
+        closeBlog.addEventListener('click', () => wrapper.classList.remove('blog-active'));
 
-        // Persistencia de tema
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            darkToggle.innerText = 'Modo Claro';
+        async function loadPosts() {
+            const repo = "notnotfuxyc/myblog.github.io"; 
+            const folder = "content/blog";
+            const apiUrl = `https://api.github.com/repos/${repo}/contents/${folder}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const files = await response.json();
+                postsContainer.innerHTML = ""; // Limpiar antes de cargar
+
+                if (!Array.isArray(files)) throw new Error();
+
+                // Recorremos los archivos .md creados por el CMS
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const res = await fetch(file.download_url);
+                        const content = await res.text();
+                        
+                        // Extraer datos básicos (Título y cuerpo simple)
+                        const lines = content.split('\n');
+                        const title = lines.find(l => l.startsWith('title:'))?.replace('title: ', '').replace(/"/g, '') || "Sin título";
+                        const date = lines.find(l => l.startsWith('date:'))?.replace('date: ', '') || "";
+                        const body = content.split('---')[2] || "Contenido no disponible";
+
+                        const card = document.createElement('div');
+                        card.className = 'post-card';
+                        card.innerHTML = `
+                            <span class="post-date">${date ? new Date(date).toLocaleDateString() : ''}</span>
+                            <h3>${title}</h3>
+                            <p>${body.substring(0, 180)}...</p>
+                        `;
+                        postsContainer.appendChild(card);
+                    }
+                }
+            } catch (err) {
+                postsContainer.innerHTML = "<p style='color:gray'>Todavía no hay publicaciones. ¡Crea la primera desde el panel!</p>";
+            }
+        }
+
+        // --- NETLIFY IDENTITY GESTIÓN ---
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+                }
+            });
         }
     </script>
 </body>

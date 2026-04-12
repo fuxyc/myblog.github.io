@@ -9,16 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="favicon.png">
-
     <style>
-        /* --- VARIABLES DE COLOR --- */
+        /* --- VARIABLES --- */
         :root {
             --bg-body: #f4f7f6;
             --bg-container: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #666666;
+            --accent: #0070f3;
         }
 
         body.dark-mode {
@@ -36,20 +34,33 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            transition: background-color 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
         }
 
-        /* --- CONTENEDOR CON ANIMACIÓN --- */
+        /* --- LAYOUT PARA EL MODO BLOG --- */
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+            transition: all 0.5s ease;
+        }
+
+        /* --- TARJETA PRINCIPAL --- */
         .container {
             background: var(--bg-container);
             border-radius: 32px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
             text-align: center;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             overflow: hidden;
-            margin: 40px 0;
             position: relative;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
             opacity: 0;
             transform: translateY(30px);
             animation: entradaSuave 0.8s ease-out forwards;
@@ -59,207 +70,165 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .banner {
-            width: 100%;
-            height: 150px;
-            background-image: url('bg-image.gif');
-            background-size: cover;
-            background-position: center;
+        /* ESTADO ENCOGIDO CUANDO SE ABRE EL BLOG */
+        .wrapper.blog-active .container {
+            max-width: 350px; /* Se hace más delgado */
+            transform: scale(0.95);
         }
 
-        header {
-            padding: 0 2rem 1.5rem 2rem;
-            position: relative;
+        /* --- SECCIÓN DE POSTS (OCULTA POR DEFECTO) --- */
+        .blog-section {
+            width: 0;
+            opacity: 0;
+            height: 80vh;
+            background: var(--bg-container);
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
         }
 
-        .profile-pic-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--bg-container);
-            margin-top: -60px;
-            background-color: var(--bg-container);
+        .wrapper.blog-active .blog-section {
+            width: 600px; /* Ancho de la sección de posts */
+            opacity: 1;
+            padding: 30px;
         }
 
-        /* --- BOTÓN DE TRES PUNTOS (CORREGIDO: Fuera del flujo del texto) --- */
-        .menu-wrapper {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .dots-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            display: flex;
-            transition: background 0.3s;
-        }
-
-        .dots-btn:hover { background: rgba(120, 120, 120, 0.1); }
-        .dots-btn svg path { fill: var(--text-secondary); }
-
-        .dropdown {
-            position: absolute;
-            right: 0;
-            top: 45px;
-            background: #2d2d2d;
-            border-radius: 12px;
-            min-width: 160px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1000;
-        }
-
-        .dropdown.active { display: block; }
-
-        .dropdown-item {
-            width: 100%;
-            padding: 12px 15px;
-            border: none;
-            background: none;
-            color: white;
+        /* --- DISEÑO DE LOS POSTS --- */
+        .post-card {
+            background: rgba(120, 120, 120, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
             text-align: left;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            border: 1px solid rgba(120, 120, 120, 0.1);
         }
 
-        .dropdown-item:hover { background: #3d3d3d; }
+        .post-card h3 { margin: 0 0 10px 0; color: var(--text-primary); }
+        .post-card p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; }
+        .post-date { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
 
-        /* --- TEXTOS --- */
-        h1 {
-            font-size: 2rem;
-            margin: 10px 0;
-            color: var(--text-primary);
-        }
+        /* --- ELEMENTOS DE LA TARJETA --- */
+        .banner { width: 100%; height: 150px; background-image: url('bg-image.gif'); background-size: cover; background-position: center; }
+        header { padding: 0 2rem 1.5rem 2rem; position: relative; }
+        .profile-pic-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid var(--bg-container); margin-top: -55px; background-color: var(--bg-container); }
+        
+        .menu-wrapper { position: absolute; top: 20px; right: 20px; }
+        .dots-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; }
+        .dots-btn svg path { fill: var(--text-secondary); }
+        .dropdown { position: absolute; right: 0; top: 45px; background: #2d2d2d; border-radius: 12px; min-width: 160px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: none; z-index: 1000; }
+        .dropdown.active { display: block; }
+        .dropdown-item { width: 100%; padding: 12px 15px; border: none; background: none; color: white; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
 
-        .handle-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 1rem;
-        }
+        h1 { font-size: 1.8rem; margin: 10px 0; color: var(--text-primary); }
+        .handle-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 1rem; }
         .handle-row p { margin: 0; color: var(--text-secondary); }
         .verified-badge { width: 18px; height: 18px; }
 
-        .bio { color: var(--text-secondary); margin-bottom: 2rem; }
-
         /* --- BOTONES --- */
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 0 2.5rem;
-        }
-        .btn {
-            text-decoration: none;
-            color: white;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
+        .links { display: flex; flex-direction: column; gap: 12px; padding: 0 2.5rem; margin-bottom: 2rem; }
+        .btn { text-decoration: none; color: white; padding: 14px; border-radius: 14px; font-weight: bold; transition: all 0.3s; cursor: pointer; border: none; font-size: 1rem; }
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        
         .insta { background-color: #E4405F; }
         .github { background-color: #333; }
         .youtube { background-color: #FF0000; }
+        .blogs-btn { background-color: var(--accent); margin-top: 5px; }
 
-        footer { padding: 2rem 0; font-size: 0.8rem; color: #bbb; }
+        footer { padding: 1rem 0; font-size: 0.8rem; color: #bbb; }
+
+        /* Mobile responsive */
+        @media (max-width: 900px) {
+            .wrapper.blog-active { flex-direction: column; padding: 20px; }
+            .wrapper.blog-active .blog-section { width: 100%; height: auto; }
+            .wrapper.blog-active .container { max-width: 100%; }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="banner"></div>
-
-        <header>
-            <div class="menu-wrapper">
-                <button class="dots-btn" id="menuBtn">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
-                    </svg>
-                </button>
-                <div class="dropdown" id="menuBox">
-                    <button class="dropdown-item" id="darkToggle">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 3c.132 0 .263 0 .393.007a9 9 0 0 0 7.599 15.98A9 9 0 1 1 12 3z"/>
-                        </svg>
-                        <span id="themeText">Modo Oscuro</span>
-                    </button>
+    <div class="wrapper" id="mainWrapper">
+        <div class="container">
+            <div class="banner"></div>
+            <header>
+                <div class="menu-wrapper">
+                    <button class="dots-btn" id="menuBtn"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm0-6a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></button>
+                    <div class="dropdown" id="menuBox">
+                        <button class="dropdown-item" id="darkToggle">Modo Oscuro</button>
+                    </div>
                 </div>
+                <img src="pfp.webp" alt="Fuxyc" class="profile-pic-img">
+                <h1>¡Hola a todos soy Fuxyc!</h1>
+                <div class="handle-row">
+                    <p>@fuxyc</p>
+                    <span class="verified-badge"><svg viewBox="0 0 48 48"><circle fill="#1d9bf0" cx="24" cy="24" r="20"/><polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/></svg></span>
+                </div>
+                <p style="color: var(--text-secondary)">Este es mi nuevo blog personal.</p>
+            </header>
+
+            <main class="links">
+                <a href="#" class="btn insta">Instagram</a>
+                <a href="#" class="btn github">GitHub</a>
+                <a href="#" class="btn youtube">YouTube</a>
+                <button class="btn blogs-btn" id="blogBtn">Ver Blogs</button>
+            </main>
+            <footer>&copy; 2026 Fuxyc</footer>
+        </div>
+
+        <div class="blog-section" id="blogSection">
+            <h2 style="color: var(--text-primary);">Mis Publicaciones</h2>
+            
+            <div class="post-card">
+                <span class="post-date">12 Abr 2026</span>
+                <h3>¡Bienvenidos a mi sección de blogs!</h3>
+                <p>Aquí estaré publicando cosas interesantes sobre programación y mis avances en el canal. ¡Espero que les guste este nuevo diseño!</p>
             </div>
 
-            <img src="pfp.webp" alt="Fuxyc" class="profile-pic-img">
-
-            <h1>¡Hola a todos soy Fuxyc!</h1>
-
-            <div class="handle-row">
-                <p>@fuxyc</p>
-                <span class="verified-badge">
-                    <svg viewBox="0 0 48 48">
-                        <circle fill="#1d9bf0" cx="24" cy="24" r="20"/>
-                        <polyline fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="16,24 22,30 32,18"/>
-                    </svg>
-                </span>
+            <div class="post-card">
+                <span class="post-date">10 Abr 2026</span>
+                <h3>Actualización del sitio</h3>
+                <p>He añadido el modo oscuro y un menú de opciones más limpio. El siguiente paso es integrar más contenido multimedia.</p>
             </div>
-
-            <p class="bio">Este es mi nuevo blog personal.</p>
-        </header>
-
-        <main class="links">
-            <a href="https://www.instagram.com/jarell.js" target="_blank" class="btn insta">Instagram</a>
-            <a href="https://github.com/fuxyc" target="_blank" class="btn github">GitHub</a>
-            <a href="https://www.youtube.com/@fuxyc" target="_blank" class="btn youtube">YouTube</a>
-        </main>
-
-        <footer>
-            &copy; 2026 Fuxyc - Hecho con ❤️
-        </footer>
+            
+            <button class="btn github" id="closeBlog" style="width: 100%;">Cerrar Blogs</button>
+        </div>
     </div>
 
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const menuBox = document.getElementById('menuBox');
         const darkToggle = document.getElementById('darkToggle');
-        const themeText = document.getElementById('themeText');
+        const blogBtn = document.getElementById('blogBtn');
+        const closeBlog = document.getElementById('closeBlog');
+        const wrapper = document.getElementById('mainWrapper');
 
-        // Función para actualizar el texto según el modo
-        function updateThemeText() {
-            if (document.body.classList.contains('dark-mode')) {
-                themeText.innerText = 'Modo Claro';
-            } else {
-                themeText.innerText = 'Modo Oscuro';
-            }
-        }
-
-        // Abrir/Cerrar menú
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menuBox.classList.toggle('active');
-        });
-
+        // Lógica del Menú
+        menuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuBox.classList.toggle('active'); });
         document.addEventListener('click', () => menuBox.classList.remove('active'));
 
-        // Cambio de Modo Oscuro
+        // Modo Oscuro
         darkToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('fuxyc-theme', isDark ? 'dark' : 'light');
-            updateThemeText(); // Actualiza el texto al hacer clic
+            darkToggle.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
-        // Cargar preferencia y poner el texto correcto al iniciar
-        if (localStorage.getItem('fuxyc-theme') === 'dark') {
+        // ANIMACIÓN DE BLOGS (EL CORAZÓN DE TU PETICIÓN)
+        blogBtn.addEventListener('click', () => {
+            wrapper.classList.add('blog-active');
+        });
+
+        closeBlog.addEventListener('click', () => {
+            wrapper.classList.remove('blog-active');
+        });
+
+        // Persistencia de tema
+        if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
+            darkToggle.innerText = 'Modo Claro';
         }
-        updateThemeText(); 
     </script>
 </body>
 </html>
